@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class VigoButton extends StatelessWidget {
@@ -19,29 +21,31 @@ class VigoButton extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
         side: BorderSide(
-          color: transparent ? Colors.black : Colors.transparent
+          width: 1.5,
+          color: transparent ? const Color.fromARGB(255, 129, 53, 249) : Colors.transparent
         )
       ),
       child: Ink(
         decoration: transparent ? BoxDecoration() : const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
+            begin: Alignment.center,
+            end: Alignment.center,
             colors: [
-              Colors.blue,
-              Colors.red,
+              Color.fromARGB(255, 255, 255, 255),
+              Color.fromARGB(255, 31, 241, 227),
+              Color.fromARGB(255, 129, 53, 249),
             ],
           ),
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
         ),
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.9,
           height: MediaQuery.of(context).size.height * 0.06,
           child: Center(
             child: Text(
               text ?? "",
               style: TextStyle(
-                color: transparent ? Colors.black : Colors.white
+                color: transparent ? const Color.fromARGB(255, 129, 53, 249) : Colors.white
               ),
             ),
           ),
