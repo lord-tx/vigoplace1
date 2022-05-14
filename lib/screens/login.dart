@@ -6,14 +6,21 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
-        title: Image.asset("assets/images/logo.png"),
+        title: Hero(
+            tag: "logo",
+            child: Image.asset("assets/images/logo.png")
+        ),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            
+
           ]
         )
       ),
