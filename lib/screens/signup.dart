@@ -73,6 +73,7 @@ class _SignUpState extends State<SignUp>{
                   "Sign up to gain access",
                   style: TextStyle(
                       fontSize: 19,
+                      fontFamily: "Ubuntu",
                       fontWeight: FontWeight.bold,
                       color: Color.fromRGBO(129, 53, 249, 1)
                   ),
@@ -123,7 +124,9 @@ class _SignUpState extends State<SignUp>{
                         });
                       }
                     ),
-                    const Text("I agree to the "),
+                    const Text("I agree to the ", style: TextStyle(
+                      fontFamily: "Nunito",
+                    ),),
                     TextButton(
                       style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
@@ -131,17 +134,26 @@ class _SignUpState extends State<SignUp>{
                       ),
                       onPressed: (){},
                       child: const Text("Terms & Conditions", style: TextStyle(
-                        fontSize: 14
+                        fontSize: 14,
+                        fontFamily: "Nunito",
+                        fontWeight: FontWeight.bold,
                       ),)
                     ),
-                    const Text(" and "),
+                    const Text(" and ", style: TextStyle(
+                      fontSize: 14,
+                      fontFamily: "Nunito",
+                    ),),
                     TextButton(
                       style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
                           alignment: Alignment.center
                       ),
                       onPressed: (){},
-                      child: const Text("Privacy Policy.")
+                      child: const Text("Privacy Policy.", style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: "Nunito",
+                        fontWeight: FontWeight.bold,
+                      ),)
                     ),
                   ],
                 ),
@@ -189,12 +201,24 @@ class _SignUpState extends State<SignUp>{
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                        "Already have an account?"
+                        "Already have an account? ", style: TextStyle(
+                      fontSize: 14,
+                      fontFamily: "Nunito",
                     ),
-                    TextButton(onPressed: (){
+                    ),
+                    TextButton(
+                        style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            alignment: Alignment.centerLeft
+                        ),
+                        onPressed: (){
                       // Navigator.push(context, MaterialPageRoute(builder: (_)=> const Login()));
                       Navigator.pop(context);
-                    }, child: const Text("Login"))
+                    }, child: const Text("Login", style: TextStyle(
+                      fontSize: 14,
+                      fontFamily: "Nunito",
+                      fontWeight: FontWeight.bold,
+                    ),))
                   ],
                 )
               ]

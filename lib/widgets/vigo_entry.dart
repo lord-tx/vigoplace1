@@ -38,6 +38,12 @@ class _VigoEntryState extends State<VigoEntry> {
         },
         obscureText: widget.passwordInput && hidePassword,
         decoration: InputDecoration(
+          labelStyle: const TextStyle(
+            fontFamily: "Nunito"
+          ),
+          hintStyle: const TextStyle(
+              fontFamily: "Nunito"
+          ),
           prefixIcon: Icon(widget.icon),
           hintText: widget.hintText,
           labelText: widget.label,

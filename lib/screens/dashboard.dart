@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vigoplace1/screens/navPages/addPage.dart';
 import 'package:vigoplace1/screens/navPages/homePage.dart';
 import 'package:vigoplace1/screens/navPages/profilePage.dart';
 import 'package:vigoplace1/screens/navPages/searchPage.dart';
+
+import 'onboarding.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -95,19 +98,31 @@ class _DashboardState extends State<Dashboard> {
             label: "add"
           ),
           BottomNavigationBarItem(
-            icon: CircleAvatar(
-              child: Container(
-                clipBehavior: Clip.hardEdge,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle
-                ),
-                child: Image.network(
-                  defaultImageUrl,
-                  errorBuilder: (context, object, trace){
-                    return Image.asset("assets/images/default_post_image.png");
-                  },
-                ),
-              ),),
+            icon: GestureDetector(
+              onLongPress: () async {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Logging out")));
+                final prefs = await SharedPreferences.getInstance();
+                await prefs.remove("username");
+                Navigator.pushAndRemoveUntil<void>(
+                  context,
+                  MaterialPageRoute<void>(builder: (BuildContext buildContext) => OnBoarding()),
+                  ModalRoute.withName('/'),
+                );
+              },
+              child: CircleAvatar(
+                child: Container(
+                  clipBehavior: Clip.hardEdge,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle
+                  ),
+                  child: Image.network(
+                    defaultImageUrl,
+                    errorBuilder: (context, object, trace){
+                      return Image.asset("assets/images/default_post_image.png");
+                    },
+                  ),
+                ),),
+            ),
             label: "profile"
           ),
         ],

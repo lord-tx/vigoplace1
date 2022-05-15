@@ -76,6 +76,7 @@ class _LoginState extends State<Login>{
                   "Login to continue",
                   style: TextStyle(
                     fontSize: 19,
+                    fontFamily: "Ubuntu",
                     fontWeight: FontWeight.bold,
                     color: Color.fromRGBO(129, 53, 249, 1)
                   ),
@@ -132,11 +133,21 @@ class _LoginState extends State<Login>{
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                        "Don’t have an account yet?"
+                        "Don’t have an account yet? ", style: TextStyle(
+                        fontFamily: "Nunito"
+                      ),
                     ),
-                    TextButton(onPressed: (){
+                    TextButton(
+                      style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          alignment: Alignment.centerLeft
+                      ),
+                      onPressed: (){
                       Navigator.push(context, MaterialPageRoute(builder: (_)=> SignUp()));
-                    }, child: const Text("Sign up"))
+                    }, child: const Text("Sign up", style: TextStyle(
+                        fontFamily: "Nunito",
+                      fontWeight: FontWeight.bold
+                    ),))
                   ],
                 )
               ]
