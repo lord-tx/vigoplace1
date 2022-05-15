@@ -18,6 +18,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login>{
   /// Dummy debug Values
   bool dummyValues = false;
+  String dummyName = "mark";
+  String dummyPass = "mark";
 
   /// Get a particular height according to the current MediaQuery
   double setH(context, flex){
@@ -117,6 +119,9 @@ class _LoginState extends State<Login>{
                         setState(() {
                           loginLoading = false;
                         });
+                        if (usernameController.text == dummyName && passwordController.text == dummyPass){
+                          dummyValues = true;
+                        }
                         if (dummyValues || loginSuccess["success"]){
                           Navigator.push(context, MaterialPageRoute(builder: (_)=> const Dashboard()));
                         } else {

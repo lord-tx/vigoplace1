@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:vigoplace1/api/api_response.dart';
@@ -49,38 +51,49 @@ class Api{
   }
 
   Future<Map<String, dynamic>> processPostRequest(String url, dynamic data) async {
-    
-    final response = await http.post(
-      Uri.parse(url),
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      encoding: Encoding.getByName('utf-8'),
-      body: data,
-    ).timeout(const Duration(seconds: 10),
-      onTimeout: () {
-        return http.Response(
-            '{"flag": false,"message": "Connection timed out, please try again.", "data": {}}',
-            408
-        ); // Request Timeout response status code
-      },);
+    try{
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        encoding: Encoding.getByName('utf-8'),
+        body: data,
+      ).timeout(const Duration(seconds: 10),
+        onTimeout: () {
+          return http.Response(
+              '{"flag": false,"message": "Connection timed out, please try again.", "data": {}}',
+              408
+          ); // Request Timeout response status code
+        },);
 
-    if(kDebugMode){
-      print(response.statusCode);
-    }
+      if(kDebugMode){
+        print(response.statusCode);
+      }
 
-    switch(response.statusCode){
-      case 200:
-        if(kDebugMode){
-          print("Success");
-        }
-        return {"success" : true};
-    }
+      switch(response.statusCode){
+        case 200:
+          if(kDebugMode){
+            print("Success");
+          }
+          return {"success" : true};
+      }
 
-    ApiResponse apiResponse = apiResponseFromJson(response.body);
-    if(kDebugMode){
-      print(apiResponse.message);
+      ApiResponse apiResponse = apiResponseFromJson(response.body);
+      if(kDebugMode){
+        print(apiResponse.message);
+      }
+      return {"success" : false, "message" : apiResponse.message};
+    }  catch (e) {
+      if(e is SocketException){
+        return {"success" : false, "message" : "Connection error, please try again later"};
+      }
+      else if(e is TimeoutException){
+        return {"success" : false, "message" : "Connection timed out, please try again later"};
+      }
+      else {
+        return {"success" : false, "message" : "Error, please try again later"};
+      }
     }
-    return {"success" : false, "message" : apiResponse.message};
   }
 }
