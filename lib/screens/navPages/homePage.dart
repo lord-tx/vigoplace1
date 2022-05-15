@@ -28,6 +28,19 @@ class _HomePageState extends State<HomePage> {
       comments: 0,
     )
   );
+  late List<VigoPost> postList;
+
+  @override
+  void initState(){
+    super.initState();
+     postList = [
+      myPost,
+      myPost,
+      myPost,
+      myPost,
+      myPost,
+    ];
+  }
 
   /// Dummy value
   bool refreshed = false;
@@ -42,9 +55,9 @@ class _HomePageState extends State<HomePage> {
         });
       },
       child: ListView.builder(
-          itemCount: 5,// empList.length,
+          itemCount: postList.length,// empList.length,
           itemBuilder: (context, index){
-            return myPost;
+            return postList[index];
           }
       ),
     );
