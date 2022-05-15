@@ -84,7 +84,7 @@ class OnBoarding extends StatelessWidget {
                 VigoButton(
                   text: "Login",
                   buttonFunction: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (_)=> const Login()));
+                    Navigator.push(context, MaterialPageRoute(builder: (_)=> Login()));
                   },
                 ),
                 SizedBox(
@@ -93,7 +93,7 @@ class OnBoarding extends StatelessWidget {
                 VigoButton(
                   text: "SignUp",
                   buttonFunction: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (_)=> const SignUp()));
+                    Navigator.push(context, MaterialPageRoute(builder: (_)=> SignUp()));
                   },
                   transparent: true,
                 )
