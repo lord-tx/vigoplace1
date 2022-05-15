@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:vigoplace1/api/authenticate.dart';
-import 'package:vigoplace1/mixins/portrait_mode_mixin.dart';
 import 'package:vigoplace1/models/user.dart';
 import 'package:vigoplace1/screens/dashboard.dart';
 
@@ -14,7 +14,7 @@ class SignUp extends StatefulWidget {
   State<SignUp> createState() => _SignUpState();
 }
 
-class _SignUpState extends State<SignUp> with PortraitStatefulModeMixin<SignUp>{
+class _SignUpState extends State<SignUp>{
   /// Get a particular height according to the current MediaQuery
   double setH(context, flex){
     if (flex > 1 ){
@@ -34,6 +34,15 @@ class _SignUpState extends State<SignUp> with PortraitStatefulModeMixin<SignUp>{
 
   bool checkBoxValue = false;
   bool signUpLoading = false;
+
+  @override
+  void initState() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

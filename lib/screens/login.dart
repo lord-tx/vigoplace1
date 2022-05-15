@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:vigoplace1/api/authenticate.dart';
-import 'package:vigoplace1/mixins/portrait_mode_mixin.dart';
 import 'package:vigoplace1/screens/dashboard.dart';
 import 'package:vigoplace1/widgets/vigo_button.dart';
 import 'package:vigoplace1/widgets/vigo_entry.dart';
@@ -15,7 +15,7 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> with PortraitStatefulModeMixin<Login>{
+class _LoginState extends State<Login>{
   /// Dummy debug Values
   bool dummyValues = false;
 
@@ -33,6 +33,15 @@ class _LoginState extends State<Login> with PortraitStatefulModeMixin<Login>{
   bool loginLoading = false;
 
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.initState();
+  }
 
   @override
   void dispose() {
