@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vigoplace1/api/authenticate.dart';
+import 'package:vigoplace1/mixins/portrait_mode_mixin.dart';
 import 'package:vigoplace1/screens/dashboard.dart';
 import 'package:vigoplace1/widgets/vigo_button.dart';
 import 'package:vigoplace1/widgets/vigo_entry.dart';
@@ -14,7 +15,7 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginState extends State<Login> with PortraitStatefulModeMixin<Login>{
   /// Dummy debug Values
   bool dummyValues = false;
 
@@ -32,6 +33,11 @@ class _LoginState extends State<Login> {
   bool loginLoading = false;
 
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

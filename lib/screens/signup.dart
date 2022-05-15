@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vigoplace1/api/authenticate.dart';
+import 'package:vigoplace1/mixins/portrait_mode_mixin.dart';
 import 'package:vigoplace1/models/user.dart';
 import 'package:vigoplace1/screens/dashboard.dart';
 
@@ -13,7 +14,7 @@ class SignUp extends StatefulWidget {
   State<SignUp> createState() => _SignUpState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _SignUpState extends State<SignUp> with PortraitStatefulModeMixin<SignUp>{
   /// Get a particular height according to the current MediaQuery
   double setH(context, flex){
     if (flex > 1 ){
