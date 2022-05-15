@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:vigoplace1/api/authenticate.dart';
 import 'package:vigoplace1/screens/dashboard.dart';
 import 'package:vigoplace1/widgets/vigo_button.dart';
 import 'package:vigoplace1/widgets/vigo_entry.dart';
 
+import '../models/user.dart';
 import 'signup.dart';
 
 class Login extends StatelessWidget {
-  const Login({Key? key}) : super(key: key);
+  Login({Key? key}) : super(key: key);
 
   /// Get a particular height according to the current MediaQuery
   double setH(context, flex){
@@ -15,6 +17,9 @@ class Login extends StatelessWidget {
     }
     return MediaQuery.of(context).size.height * flex;
   }
+
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +54,13 @@ class Login extends StatelessWidget {
               SizedBox(
                 height: setH(context, 0.03),
               ),
-              const VigoEntry(
+              VigoEntry(
+                eController: usernameController,
                 icon: Icons.account_circle_outlined,
                 label: "Username or email address",
               ),
-              const VigoEntry(
+              VigoEntry(
+                eController: passwordController,
                 icon: Icons.lock,
                 label: "Password",
                 passwordInput: true,
@@ -64,6 +71,10 @@ class Login extends StatelessWidget {
               VigoButton(
                 text: "Login",
                 buttonFunction: (){
+                  login(LoginUser(
+                    username: usernameController.text,
+                    password: passwordController.text,
+                  ));
                   Navigator.push(context, MaterialPageRoute(builder: (_)=> const Dashboard()));
                 },
               ),
@@ -73,12 +84,12 @@ class Login extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                       "Don’t have an account yet?"
                   ),
                   TextButton(onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (_)=> const SignUp()));
-                  }, child: Text("Sign up"))
+                    Navigator.push(context, MaterialPageRoute(builder: (_)=> SignUp()));
+                  }, child: const Text("Sign up"))
                 ],
               )
             ]

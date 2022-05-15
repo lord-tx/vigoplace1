@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:vigoplace1/api/authenticate.dart';
+import 'package:vigoplace1/models/user.dart';
 
 import '../widgets/vigo_button.dart';
 import '../widgets/vigo_entry.dart';
 
-class SignUp extends StatelessWidget {
-  const SignUp({Key? key}) : super(key: key);
+class SignUp extends StatefulWidget {
+  SignUp({Key? key}) : super(key: key);
 
+  @override
+  State<SignUp> createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
   /// Get a particular height according to the current MediaQuery
   double setH(context, flex){
     if (flex > 1 ){
@@ -13,6 +20,17 @@ class SignUp extends StatelessWidget {
     }
     return MediaQuery.of(context).size.height * flex;
   }
+
+  final TextEditingController fullNameController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController dateOfBirthController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordConfirmController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+
+  bool checkBoxValue = false;
 
   @override
   Widget build(BuildContext context) {
@@ -31,96 +49,126 @@ class SignUp extends StatelessWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: setH(context, 0.03),
-              ),
-              const Text(
-                "Sign up to gain access",
-                style: TextStyle(
-                    fontSize: 19,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(129, 53, 249, 1)
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: setH(context, 0.03),
                 ),
-              ),
-              SizedBox(
-                height: setH(context, 0.03),
-              ),
-              const VigoEntry(
-                icon: Icons.account_circle_outlined,
-                label: "Full Name",
-              ),
-              const VigoEntry(
-                icon: Icons.alternate_email_outlined,
-                label: "Username",
-              ),
-              const VigoEntry(
-                icon: Icons.email_outlined,
-                label: "Email Address",
-              ),
-              const VigoEntry(
-                icon: Icons.calendar_today_outlined,
-                hintText: "July 13, 1997",
-              ),
-              const VigoEntry(
-                icon: Icons.lock,
-                label: "Password",
-                passwordInput: true,
-              ),
-              const VigoEntry(
-                icon: Icons.lock,
-                label: "Confirm Password",
-                passwordInput: true,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Checkbox(value: true, onChanged: (bool? value){}),
-                  Text("I agree to the "),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        alignment: Alignment.center
+                const Text(
+                  "Sign up to gain access",
+                  style: TextStyle(
+                      fontSize: 19,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(129, 53, 249, 1)
+                  ),
+                ),
+                SizedBox(
+                  height: setH(context, 0.03),
+                ),
+                VigoEntry(
+                  eController: fullNameController,
+                  icon: Icons.account_circle_outlined,
+                  label: "Full Name",
+                ),
+                VigoEntry(
+                  eController: usernameController,
+                  icon: Icons.alternate_email_outlined,
+                  label: "Username",
+                ),
+                VigoEntry(
+                  eController: emailController,
+                  icon: Icons.email_outlined,
+                  label: "Email Address",
+                ),
+                VigoEntry(
+                  eController: dateOfBirthController,
+                  icon: Icons.calendar_today_outlined,
+                  hintText: "July 13, 1997",
+                ),
+                VigoEntry(
+                  eController: passwordController,
+                  icon: Icons.lock,
+                  label: "Password",
+                  passwordInput: true,
+                ),
+                VigoEntry(
+                  eController: passwordConfirmController,
+                  icon: Icons.lock,
+                  label: "Confirm Password",
+                  passwordInput: true,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Checkbox(
+                      value: checkBoxValue,
+                      onChanged: (bool? value){
+                        setState(() {
+                          checkBoxValue = value!;
+                        });
+                      }
                     ),
-                    onPressed: (){},
-                    child: Text("Terms & Conditions", style: TextStyle(
-                      fontSize: 14
-                    ),)
-                  ),
-                  Text(" and "),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        alignment: Alignment.center
+                    const Text("I agree to the "),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          alignment: Alignment.center
+                      ),
+                      onPressed: (){},
+                      child: const Text("Terms & Conditions", style: TextStyle(
+                        fontSize: 14
+                      ),)
                     ),
-                    onPressed: (){},
-                    child: Text("Privacy Policy.")
-                  ),
-                ],
-              ),
-              VigoButton(
-                text: "Sign up",
-                buttonFunction: (){},
-              ),
-              SizedBox(
-                height: setH(context, 0.13),
-              ),
-              // Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                      "Already have an account?"
-                  ),
-                  TextButton(onPressed: (){
-                    // Navigator.push(context, MaterialPageRoute(builder: (_)=> const Login()));
-                    Navigator.pop(context);
-                  }, child: Text("Login"))
-                ],
-              )
-            ]
+                    const Text(" and "),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          alignment: Alignment.center
+                      ),
+                      onPressed: (){},
+                      child: const Text("Privacy Policy.")
+                    ),
+                  ],
+                ),
+                VigoButton(
+                  text: "Sign up",
+                  buttonFunction: (){
+                    if(_formKey.currentState!.validate()){
+                      if (passwordController.text == passwordConfirmController.text){
+                        signUp(SignUpUser(
+                            fullName    :fullNameController.text,
+                            username    :usernameController.text,
+                            email       :emailController.text,
+                            dateOfBirth :dateOfBirthController.text,
+                            password    :passwordController.text
+                        ));
+                      } else{
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Passwords do not match"), backgroundColor: Colors.red,));
+                      }
+                    }
+                  },
+                ),
+                SizedBox(
+                  height: setH(context, 0.13),
+                ),
+                // Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                        "Already have an account?"
+                    ),
+                    TextButton(onPressed: (){
+                      // Navigator.push(context, MaterialPageRoute(builder: (_)=> const Login()));
+                      Navigator.pop(context);
+                    }, child: const Text("Login"))
+                  ],
+                )
+              ]
+            ),
           ),
         ),
       ),
