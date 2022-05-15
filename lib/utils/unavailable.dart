@@ -15,7 +15,7 @@ class Unavailable extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.functions, size: 150, color: Color.fromRGBO(129, 53, 249, 1)),
+            const Icon(Icons.hourglass_top_rounded, size: 150, color: Color.fromRGBO(129, 53, 249, 1)),
             const Text("A Beautiful Page",
               style: TextStyle(
                 fontSize: 28,

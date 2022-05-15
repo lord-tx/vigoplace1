@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:vigoplace1/screens/pages/addPage.dart';
-import 'package:vigoplace1/screens/pages/homePage.dart';
-import 'package:vigoplace1/screens/pages/profilePage.dart';
-import 'package:vigoplace1/screens/pages/searchPage.dart';
+import 'package:vigoplace1/screens/navPages/addPage.dart';
+import 'package:vigoplace1/screens/navPages/homePage.dart';
+import 'package:vigoplace1/screens/navPages/profilePage.dart';
+import 'package:vigoplace1/screens/navPages/searchPage.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -16,12 +16,14 @@ class _DashboardState extends State<Dashboard> {
   int selectedIndex = 0;
   List<String> tempList = ["Boom"];
 
-  List<Widget> pages = [
+  List<Widget> pages = const [
     HomePage(),
     SearchPage(),
     AddPage(),
     ProfilePage()
   ];
+
+  String defaultImageUrl = "https://s3-alpha-sig.figma.com/img/84b9/9884/8572cccd5607b2e036623e2e3c7f5a6b?Expires=1653264000&Signature=FlZoLaTQtWl5mNELyzvqowwSJwBNM9MflHZnLu-kaz4nMJCWqGOxltEHM490jsNMcuqsFGG1gXwJHRlsVsZQPmbI0Hy2zX~2bclsK3lcXqFAW~nyJDVFhcIGgQjUvYuUlp9cDyQ7fBI2Dbv9oYfCq9629h1TG~4uyZj2WlJj7YTaiA3r4rXEWH9VdnFaGd4eQGORZjyPVRAFzDarfGnY28PXuyrVLhOEYMuhEeXxnjWNDqhkW8~ENTfgaujSyBS8a-DzT-hsSkV~ySu4TTgB8zeFbTCP6sxlJYj2SIIRD4okgy8~Ik2MuLF0vl4n56vwXA1OwnAgPUFpRhMnCvejDA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA";
 
   @override
   Widget build(BuildContext context) {
@@ -44,29 +46,29 @@ class _DashboardState extends State<Dashboard> {
         items: [
           BottomNavigationBarItem(
             icon: Container(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.black12)
               ),
-              child: Icon(Icons.home, )
+              child: const Icon(Icons.home, )
             ),
             label: "home"
           ),
           BottomNavigationBarItem(
             icon: Container(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.black12)
               ),
-              child: Icon(Icons.search)
+              child: const Icon(Icons.search)
             ),
             label: "search"
           ),
           BottomNavigationBarItem(
             icon: Container(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.black12)
@@ -77,7 +79,18 @@ class _DashboardState extends State<Dashboard> {
           ),
           BottomNavigationBarItem(
             icon: CircleAvatar(
-              child: Container(),),
+              child: Container(
+                clipBehavior: Clip.hardEdge,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle
+                ),
+                child: Image.network(
+                  defaultImageUrl,
+                  errorBuilder: (context, object, trace){
+                    return Image.asset("assets/images/default_post_image.png");
+                  },
+                ),
+              ),),
             label: "profile"
           ),
         ],
@@ -94,8 +107,8 @@ class _DashboardState extends State<Dashboard> {
         foregroundColor: Colors.black,
         actions: [
           Container(
-            margin: EdgeInsets.only(right: 20),
-            padding: EdgeInsets.all(10),
+            margin: const EdgeInsets.only(right: 20),
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.black12)
@@ -108,7 +121,10 @@ class _DashboardState extends State<Dashboard> {
         ],
       ),
       body: SafeArea(
-        child: pages[selectedIndex],
+        child: AnimatedContainer(
+          duration: const Duration(seconds: 3),
+          child: pages[selectedIndex]
+        ),
       ),
     );
   }

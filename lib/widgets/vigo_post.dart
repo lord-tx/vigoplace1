@@ -12,6 +12,19 @@ class VigoPost extends StatefulWidget {
 }
 
 class _VigoPostState extends State<VigoPost> {
+
+  /// Debug Defaults
+  bool favorite = false;
+  int favorites = 0;
+  int comments = 0;
+
+  @override
+  void initState(){
+    super.initState();
+    favorites = widget.post?.likes ?? 0;
+    comments = widget.post?.comments ?? 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +36,7 @@ class _VigoPostState extends State<VigoPost> {
               leading: CircleAvatar(
                 child: Container(
                   clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle
                   ),
                   child: Image.network(
@@ -66,15 +79,24 @@ class _VigoPostState extends State<VigoPost> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 IconButton(
-                  onPressed: (){},
-                  icon: const Icon(Icons.favorite_border_outlined)
+                  onPressed: (){
+                    setState(() {
+                      if (favorite){
+                        favorites--;
+                      } else {
+                        favorites++;
+                      }
+                      favorite = favorite ? false : true;
+                    });
+                  },
+                  icon: favorite ? const Icon(Icons.favorite, color: Colors.red,) : const Icon(Icons.favorite_border_outlined)
                 ),
-                Text("${widget.post?.likes}"),
+                Text("$favorites"),
                 IconButton(
                   onPressed: (){},
                   icon: const Icon(Icons.comment_rounded)
                 ),
-                Text("${widget.post?.comments}"),
+                Text("$comments"),
               ],
             ),
           ],

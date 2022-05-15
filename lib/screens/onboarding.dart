@@ -42,7 +42,10 @@ class OnBoarding extends StatelessWidget {
                 SizedBox(
                   height: setH(context, 0.05),
                 ),
-                Image.asset("assets/images/onboard_image.png"),
+                Image.asset(
+                  "assets/images/onboard_image.png",
+                  height: MediaQuery.of(context).size.height * 0.42,
+                ),
                 SizedBox(
                   height: setH(context, 0.05),
                 ),
