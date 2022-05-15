@@ -15,6 +15,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  /// Dummy debug Values
+  bool dummyValues = true;
+
   /// Get a particular height according to the current MediaQuery
   double setH(context, flex){
     if (flex > 1 ){
@@ -93,7 +96,7 @@ class _LoginState extends State<Login> {
                     setState(() {
                       loginLoading = false;
                     });
-                    if (loginSuccess["success"]){
+                    if (dummyValues || loginSuccess["success"]){
                       Navigator.push(context, MaterialPageRoute(builder: (_)=> const Dashboard()));
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loginSuccess["message"] ?? ""), backgroundColor: Colors.red,));

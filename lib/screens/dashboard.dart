@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:vigoplace1/screens/navPages/addPage.dart';
 import 'package:vigoplace1/screens/navPages/homePage.dart';
 import 'package:vigoplace1/screens/navPages/profilePage.dart';
@@ -24,6 +26,7 @@ class _DashboardState extends State<Dashboard> {
   ];
 
   String defaultImageUrl = "https://s3-alpha-sig.figma.com/img/84b9/9884/8572cccd5607b2e036623e2e3c7f5a6b?Expires=1653264000&Signature=FlZoLaTQtWl5mNELyzvqowwSJwBNM9MflHZnLu-kaz4nMJCWqGOxltEHM490jsNMcuqsFGG1gXwJHRlsVsZQPmbI0Hy2zX~2bclsK3lcXqFAW~nyJDVFhcIGgQjUvYuUlp9cDyQ7fBI2Dbv9oYfCq9629h1TG~4uyZj2WlJj7YTaiA3r4rXEWH9VdnFaGd4eQGORZjyPVRAFzDarfGnY28PXuyrVLhOEYMuhEeXxnjWNDqhkW8~ENTfgaujSyBS8a-DzT-hsSkV~ySu4TTgB8zeFbTCP6sxlJYj2SIIRD4okgy8~Ik2MuLF0vl4n56vwXA1OwnAgPUFpRhMnCvejDA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA";
+  DateTime? currentBackPressTime;
 
   @override
   Widget build(BuildContext context) {
@@ -121,9 +124,22 @@ class _DashboardState extends State<Dashboard> {
         ],
       ),
       body: SafeArea(
-        child: AnimatedContainer(
-          duration: const Duration(seconds: 3),
-          child: pages[selectedIndex]
+        child: WillPopScope(
+          onWillPop: () async {
+            DateTime now = DateTime.now();
+            if (currentBackPressTime == null ||
+                now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
+              currentBackPressTime = now;
+              Fluttertoast.showToast(msg: "Press back again to exit app",);
+              return false;
+            }
+            await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+            return true;
+          },
+          child: AnimatedContainer(
+            duration: const Duration(seconds: 3),
+            child: pages[selectedIndex]
+          ),
         ),
       ),
     );

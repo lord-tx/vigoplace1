@@ -49,6 +49,7 @@ class Api{
   }
 
   Future<Map<String, dynamic>> processPostRequest(String url, dynamic data) async {
+    
     final response = await http.post(
       Uri.parse(url),
       headers: {
@@ -56,7 +57,13 @@ class Api{
       },
       encoding: Encoding.getByName('utf-8'),
       body: data,
-    );
+    ).timeout(const Duration(seconds: 10),
+      onTimeout: () {
+        return http.Response(
+            '{"flag": false,"message": "Connection timed out, please try again.", "data": {}}',
+            408
+        ); // Request Timeout response status code
+      },);
 
     if(kDebugMode){
       print(response.statusCode);
