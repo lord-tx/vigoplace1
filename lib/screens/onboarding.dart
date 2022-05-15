@@ -47,32 +47,38 @@ class OnBoarding extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.42,
                 ),
                 SizedBox(
-                  height: setH(context, 0.05),
+                  height: setH(context, 0.04),
                 ),
                 Text(
                   "Build connections.",
                   style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 28,
-                      foreground: Paint()..shader = textLinearGradient,
+                    fontFamily: "Ubuntu",
+                    fontWeight: FontWeight.w700,
+                    fontSize: 28,
+                    foreground: Paint()..shader = textLinearGradient,
                   ),
+                ),
+                SizedBox(
+                  height: setH(context, 0.01),
                 ),
                 Text("Build wealth.",
                   style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 28,
-                      foreground: Paint()..shader = textLinearGradient,
+                    fontFamily: "Ubuntu",
+                    fontWeight: FontWeight.w700,
+                    fontSize: 28,
+                    foreground: Paint()..shader = textLinearGradient,
                   ),
                 ),
                 SizedBox(
                   height: setH(context, 0.03),
                 ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.6,
+                  width: MediaQuery.of(context).size.width * 0.7,
                   child: const Text(
                     """Vigoplace integrates all of your personal, business and online interaction needs into one simple user-friendly application.""",
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontFamily: "Nunito",
                       fontWeight: FontWeight.normal,
                       fontSize: 16,
                     ),
