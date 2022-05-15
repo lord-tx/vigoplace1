@@ -31,6 +31,8 @@ class _LoginState extends State<Login> {
 
   bool loginLoading = false;
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,78 +49,83 @@ class _LoginState extends State<Login> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: setH(context, 0.03),
-              ),
-              const Text(
-                "Login to continue",
-                style: TextStyle(
-                  fontSize: 19,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromRGBO(129, 53, 249, 1)
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: setH(context, 0.03),
                 ),
-              ),
-              SizedBox(
-                height: setH(context, 0.03),
-              ),
-              VigoEntry(
-                eController: usernameController,
-                icon: Icons.account_circle_outlined,
-                label: "Username or email address",
-              ),
-              VigoEntry(
-                eController: passwordController,
-                icon: Icons.lock,
-                label: "Password",
-                passwordInput: true,
-              ),
-              SizedBox(
-                height: setH(context, 0.02),
-              ),
-              AnimatedContainer(
-                duration: const Duration(seconds: 4),
-                child: loginLoading ? const CircularProgressIndicator(): VigoButton(
-                  text: "Login",
-                  buttonFunction: () async {
-                    /// Manage the button state temporarily
-                    /// Provider seemed a bit overkill just for
-                    /// bits like this.
-                    setState(() {
-                      loginLoading = true;
-                    });
-                    var loginSuccess = await login(LoginUser(
-                      username: usernameController.text,
-                      password: passwordController.text,
-                    ));
-                    setState(() {
-                      loginLoading = false;
-                    });
-                    if (dummyValues || loginSuccess["success"]){
-                      Navigator.push(context, MaterialPageRoute(builder: (_)=> const Dashboard()));
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loginSuccess["message"] ?? ""), backgroundColor: Colors.red,));
-                    }
-                  },
-                ),
-              ),
-              SizedBox(
-                height: setH(context, 0.5),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                      "Don’t have an account yet?"
+                const Text(
+                  "Login to continue",
+                  style: TextStyle(
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(129, 53, 249, 1)
                   ),
-                  TextButton(onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (_)=> SignUp()));
-                  }, child: const Text("Sign up"))
-                ],
-              )
-            ]
+                ),
+                SizedBox(
+                  height: setH(context, 0.03),
+                ),
+                VigoEntry(
+                  eController: usernameController,
+                  icon: Icons.account_circle_outlined,
+                  label: "Username or email address",
+                ),
+                VigoEntry(
+                  eController: passwordController,
+                  icon: Icons.lock,
+                  label: "Password",
+                  passwordInput: true,
+                ),
+                SizedBox(
+                  height: setH(context, 0.02),
+                ),
+                AnimatedContainer(
+                  duration: const Duration(seconds: 4),
+                  child: loginLoading ? const CircularProgressIndicator(): VigoButton(
+                    text: "Login",
+                    buttonFunction: () async {
+                      if (_formKey.currentState!.validate()){
+                        /// Manage the button state temporarily
+                        /// Provider seemed a bit overkill just for
+                        /// bits like this.
+                        setState(() {
+                          loginLoading = true;
+                        });
+                        var loginSuccess = await login(LoginUser(
+                          username: usernameController.text,
+                          password: passwordController.text,
+                        ));
+                        setState(() {
+                          loginLoading = false;
+                        });
+                        if (dummyValues || loginSuccess["success"]){
+                          Navigator.push(context, MaterialPageRoute(builder: (_)=> const Dashboard()));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loginSuccess["message"] ?? ""), backgroundColor: Colors.red,));
+                        }
+                      }
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: setH(context, 0.5),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                        "Don’t have an account yet?"
+                    ),
+                    TextButton(onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (_)=> SignUp()));
+                    }, child: const Text("Sign up"))
+                  ],
+                )
+              ]
+            ),
           ),
         ),
       ),
