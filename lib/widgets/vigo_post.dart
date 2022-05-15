@@ -3,9 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:vigoplace1/models/post.dart';
 
 class VigoPost extends StatefulWidget {
-  const VigoPost({Key? key, this.post}) : super(key: key);
+  const VigoPost({Key? key, this.post, this.optionFunction}) : super(key: key);
 
   final Post? post;
+  final Function? optionFunction;
 
   @override
   State<VigoPost> createState() => _VigoPostState();
@@ -52,8 +53,13 @@ class _VigoPostState extends State<VigoPost> {
               trailing: PopupMenuButton(
                 itemBuilder: (BuildContext context) {
                   return [
-                    const PopupMenuItem(
-                      child: Text("Option1")
+                    PopupMenuItem(
+                      onTap: (){
+                        if (widget.optionFunction != null){
+                          widget.optionFunction!;
+                        }
+                      },
+                      child: const Text("Delete")
                     ),
                     const PopupMenuItem(
                         child: Text("Option2")
