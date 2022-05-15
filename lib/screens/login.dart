@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vigoplace1/screens/dashboard.dart';
 import 'package:vigoplace1/widgets/vigo_button.dart';
 import 'package:vigoplace1/widgets/vigo_entry.dart';
 
@@ -62,7 +63,9 @@ class Login extends StatelessWidget {
               ),
               VigoButton(
                 text: "Login",
-                buttonFunction: (){},
+                buttonFunction: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=> const Dashboard()));
+                },
               ),
               SizedBox(
                 height: setH(context, 0.5),
