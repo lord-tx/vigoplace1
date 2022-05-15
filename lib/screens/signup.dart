@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vigoplace1/api/authenticate.dart';
 import 'package:vigoplace1/models/user.dart';
+import 'package:vigoplace1/screens/dashboard.dart';
 
 import '../widgets/vigo_button.dart';
 import '../widgets/vigo_entry.dart';
@@ -31,6 +32,7 @@ class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
 
   bool checkBoxValue = false;
+  bool signUpLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -133,23 +135,41 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ],
                 ),
-                VigoButton(
-                  text: "Sign up",
-                  buttonFunction: (){
-                    if(_formKey.currentState!.validate()){
-                      if (passwordController.text == passwordConfirmController.text){
-                        signUp(SignUpUser(
-                            fullName    :fullNameController.text,
-                            username    :usernameController.text,
-                            email       :emailController.text,
-                            dateOfBirth :dateOfBirthController.text,
-                            password    :passwordController.text
-                        ));
-                      } else{
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Passwords do not match"), backgroundColor: Colors.red,));
+                AnimatedContainer(
+                  duration: const Duration(seconds: 4),
+                  child: signUpLoading ? const CircularProgressIndicator(): VigoButton(
+                    text: "Sign up",
+                    buttonFunction: () async {
+                      if(_formKey.currentState!.validate()){
+                        if (passwordController.text == passwordConfirmController.text){
+                          /// Manage the button state temporarily
+                          /// Provider seemed a bit overkill just for
+                          /// bits like this.
+                          setState(() {
+                            signUpLoading = true;
+                          });
+                          var createSuccess = await signUp(SignUpUser(
+                              fullName    :fullNameController.text,
+                              username    :usernameController.text,
+                              email       :emailController.text,
+                              dateOfBirth :dateOfBirthController.text,
+                              password    :passwordController.text
+                          ));
+                          setState(() {
+                            signUpLoading = false;
+                          });
+                          if (createSuccess["success"]){
+                            Navigator.push(context, MaterialPageRoute(builder: (_)=> const Dashboard()));
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Account Created"), backgroundColor: Color.fromRGBO(129, 53, 249, 1)));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(createSuccess["message"] ?? ""), backgroundColor: Colors.red,));
+                          }
+                        } else{
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Passwords do not match"), backgroundColor: Colors.red,));
+                        }
                       }
-                    }
-                  },
+                    },
+                  ),
                 ),
                 SizedBox(
                   height: setH(context, 0.13),

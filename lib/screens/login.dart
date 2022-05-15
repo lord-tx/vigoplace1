@@ -7,9 +7,14 @@ import 'package:vigoplace1/widgets/vigo_entry.dart';
 import '../models/user.dart';
 import 'signup.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   Login({Key? key}) : super(key: key);
 
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
   /// Get a particular height according to the current MediaQuery
   double setH(context, flex){
     if (flex > 1 ){
@@ -20,6 +25,8 @@ class Login extends StatelessWidget {
 
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  bool loginLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -68,15 +75,31 @@ class Login extends StatelessWidget {
               SizedBox(
                 height: setH(context, 0.02),
               ),
-              VigoButton(
-                text: "Login",
-                buttonFunction: (){
-                  login(LoginUser(
-                    username: usernameController.text,
-                    password: passwordController.text,
-                  ));
-                  Navigator.push(context, MaterialPageRoute(builder: (_)=> const Dashboard()));
-                },
+              AnimatedContainer(
+                duration: const Duration(seconds: 4),
+                child: loginLoading ? const CircularProgressIndicator(): VigoButton(
+                  text: "Login",
+                  buttonFunction: () async {
+                    /// Manage the button state temporarily
+                    /// Provider seemed a bit overkill just for
+                    /// bits like this.
+                    setState(() {
+                      loginLoading = true;
+                    });
+                    var loginSuccess = await login(LoginUser(
+                      username: usernameController.text,
+                      password: passwordController.text,
+                    ));
+                    setState(() {
+                      loginLoading = false;
+                    });
+                    if (loginSuccess["success"]){
+                      Navigator.push(context, MaterialPageRoute(builder: (_)=> const Dashboard()));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(loginSuccess["message"] ?? ""), backgroundColor: Colors.red,));
+                    }
+                  },
+                ),
               ),
               SizedBox(
                 height: setH(context, 0.5),
