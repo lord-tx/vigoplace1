@@ -16,7 +16,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   /// Dummy debug Values
-  bool dummyValues = true;
+  bool dummyValues = false;
 
   /// Get a particular height according to the current MediaQuery
   double setH(context, flex){
