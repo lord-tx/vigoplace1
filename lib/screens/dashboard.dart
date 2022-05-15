@@ -16,6 +16,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
 
   int selectedIndex = 0;
+  final PageController _pageController = PageController();
   List<String> tempList = ["Boom"];
 
   List<Widget> pages = const [
@@ -40,6 +41,8 @@ class _DashboardState extends State<Dashboard> {
         onTap: (int index){
           setState(() {
             selectedIndex = index;
+            _pageController.animateToPage(index,
+                duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
           });
         },
         unselectedItemColor: Colors.black,
@@ -136,9 +139,9 @@ class _DashboardState extends State<Dashboard> {
             await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
             return true;
           },
-          child: AnimatedContainer(
-            duration: const Duration(seconds: 3),
-            child: pages[selectedIndex]
+          child: PageView(
+            controller: _pageController,
+            children: pages
           ),
         ),
       ),
