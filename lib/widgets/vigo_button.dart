@@ -45,6 +45,9 @@ class VigoButton extends StatelessWidget {
             child: Text(
               text ?? "",
               style: TextStyle(
+                fontFamily: "Nunito",
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
                 color: transparent ? const Color.fromARGB(255, 129, 53, 249) : Colors.white
               ),
             ),
